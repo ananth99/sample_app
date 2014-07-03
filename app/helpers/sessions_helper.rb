@@ -32,7 +32,7 @@ module SessionsHelper
   	end
 
   	def redirect_back_or
-  		redirect_to session[:return_to] || default
+  		redirect_to session[:return_to] || root_url
   		session.delete(:return_to)
   	end
 
@@ -40,4 +40,10 @@ module SessionsHelper
   		session[:return_to] = request.url if request.get?
   	end
 
+    def signed_in_user
+    unless signed_in?
+      store_location
+      redirect_to signin_url, notice: "Login to Continue"
+    end
+  end
 end

@@ -25,6 +25,7 @@ class UsersController < ApplicationController
 
   def show
   	@user =User.find(params[:id])
+  	@microposts = @user.microposts.paginate(page: params[:page])
   end
 
 	def edit
@@ -47,13 +48,6 @@ class UsersController < ApplicationController
 		redirect_to users_url
 	end
 private
-	
-	def signed_in_user
-		unless signed_in?
-			store_location
-			redirect_to signin_url, notice: "Login to Continue"
-		end
-	end
 
 	def user_params
 		params.require(:user).permit(:name,:email,:password,:password_confirmation)
@@ -67,4 +61,6 @@ private
     def admin_user
     	redirect_to root_url unless current_user.admin?
     end
+
+    
 end
