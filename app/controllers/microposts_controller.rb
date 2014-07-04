@@ -1,6 +1,7 @@
 class MicropostsController < ApplicationController
 	before_action :signed_in_user, only: [:create, :destroy]
 	before_action :correct_user, only: :destroy
+	
 	def create
 	 @micropost = current_user.microposts.build(micropost_params)
     if @micropost.save
@@ -14,6 +15,7 @@ class MicropostsController < ApplicationController
 
 	def destroy
 		@micropost.destroy
+		redirect_to @micropost.user
 	end
 
 	private 
