@@ -12,7 +12,11 @@
       <%= render 'shared/stats' %>
     </section>
 	<div class="span8">
-	<%= render 'follow_form' unless current_user?(@user) %>
+	<% if !current_user.following?(@user) %>
+		<%= render 'follow_form' unless current_user?(@user) %>
+	<% else %>
+		<%= render 'unfollow_form' unless current_user?(@user) %>
+	<% end %>
     <% if @user.microposts.any? %>
       <h3>Microposts (<%= @user.microposts.count %>)</h3>
       <ol class="microposts">
